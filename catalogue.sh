@@ -16,4 +16,4 @@ systemctl enable catalogue
 systemctl start catalogue
 #add client address /etc/yum.repos.d/mongo.repo
 dnf install mongodb-mongosh -y
-mongosh --host localhost</app/db/master-data.js
+mongosh --host mongo.dev.codedeploywithbharath.tech</app/db/master-data.js
