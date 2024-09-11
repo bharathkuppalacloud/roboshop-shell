@@ -1,4 +1,4 @@
-cp shipping.service /etc/systemd.system/shipping.service
+cp shipping.service  /etc/systemd/system/shipping.service
 dnf install maven -y
 useradd roboshop
 mkdir /app
