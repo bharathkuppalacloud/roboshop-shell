@@ -1,3 +1,4 @@
+cp dispatch.service  /etc/systemd/system/disptach.service
 dnf install golang -y
 useradd roboshop
 mkdir /app
