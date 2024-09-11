@@ -10,7 +10,7 @@ mvn clean package
 mv target/shipping-1.0.jar shipping.jar
 systemctl daemon-reload
 systemctl enable shipping
-systemctl restart shipping
+systemctl start shipping
 dnf install mysql -y
 mysql -h mysql.dev.codedeploywithbharath.tech -uroot -pRoboShop@1 < /app/db/schema.sql
 mysql -h mysql.dev.codedeploywithbharath.tech -uroot -pRoboShop@1 < /app/db/app-user.sql
