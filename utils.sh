@@ -4,9 +4,12 @@ rm -f $LOG_FILE
 SUCCESS() {
   # shellcheck disable=SC1073
   if [ $1 -eq 0 ]; then
-    echo SUCCESS $?
+    echo -e "\e[32mSUCCESS\e[0m" $?
   else
-    echo  FAILED
+    echo  -e "\e[31mSUCCESS\e[0m"
+    exit $1 # stop if something failed
+    echo
+    echo Refer the log file at /tmp/roboshop-shell.log
   fi
 }
 
@@ -38,7 +41,10 @@ NODEJS(){
   SUCCESS $?
 
   PRINT add User
-  useradd roboshop &>>LOG_FILE
+  id roboshop &>>LOG_FILE
+  if [ $? -ne 0 ]; then
+    useradd roboshop &>>LOG_FILE
+  fi
   SUCCESS $?
 
   PRINT Cleaning old content
@@ -75,3 +81,5 @@ NODEJS(){
   systemctl start ${component} &>>LOG_FILE
   SUCCESS $?
 }
+
+#session 15 16
