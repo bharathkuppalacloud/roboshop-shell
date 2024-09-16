@@ -3,8 +3,8 @@ rm -f $LOG_FILE
 
 SUCCESS() {
   # shellcheck disable=SC1073
-  if [ $? -eq 0 ]; then
-    echo SUCCESS
+  if [ $1 -eq 0 ]; then
+    echo SUCCESS $?
   else
     echo  FAILED
   fi
@@ -19,59 +19,59 @@ PRINT() {
 NODEJS(){
   PRINT Disabling NodeJS Default Version
   dnf module disable nodejs -y &>>LOG_FILE
-  SUCCESS
+  SUCCESS $?
 
   PRINT enabling NodeJS 20 Module
   dnf module enable nodejs:20 -y &>>LOG_FILE
-  SUCCESS
+  SUCCESS $?
 
   PRINT install NodeJS
   dnf install nodejs -y
-  SUCCESS
+  SUCCESS $?
 
   PRINT copy Service file
   cp ${component}.service  /etc/systemd/system/${component}.service &>>LOG_FILE
-  SUCCESS
+  SUCCESS $?
 
   PRINT copy Mongo repo
   cp mongo.repo /etc/yum.repos.d/mongo.repo &>>LOG_FILE
-  SUCCESS
+  SUCCESS $?
 
   PRINT add User
   useradd roboshop &>>LOG_FILE
-  SUCCESS
+  SUCCESS $?
 
   PRINT Cleaning old content
   rm -rd /app &>>LOG_FILE
-  SUCCESS
+  SUCCESS $?
 
   PRINT Create App Directory
   mkdir /app &>>LOG_FILE
-  SUCCESS
+  SUCCESS $?
 
   PRINT Download NodeJS Dependecy
   curl -L -o /tmp/${component}.zip https://roboshop-artifacts.s3.amazonaws.com/${component}-v3.zip
-  SUCCESS
+  SUCCESS $?
 
   cd /app
 
   PRINT Extract App content
   unzip /tmp/${component}.zip &>>LOG_FILE
-  SUCCESS
+  SUCCESS $?
 
   PRINT Download NodeJS Dependecies
   npm install &>>LOG_FILE
-  SUCCESS
+  SUCCESS $?
 
   PRINT Make it service
   systemctl daemon-reload &>>LOG_FILE
-  SUCCESS
+  SUCCESS $?
 
   PRINT enabling ${component}
   systemctl enable ${component} &>>LOG_FILE
-  SUCCESS
+  SUCCESS $?
 
   PRINT Start service
   systemctl start ${component} &>>LOG_FILE
-  SUCCESS
+  SUCCESS $?
 }
